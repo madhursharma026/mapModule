@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body style="text-align: center;">
+    <h1><u>Map</u></h1>
+    <img src="/static/MapImage.jpeg">
+    <!-- Modal -->
+    <div class="modal fade" id="demoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">Map Details</h4>
+                </div>
+                <form>
+                    <div class="modal-body">
+                        <label for="inputTitle" class="form-label" style="float: left;">Title</label>
+                        <input type="text" class="form-control" required placeholder="Title of the place"
+                            id="inputTitle" style="width: 100%; font-size: 20px;">
+                        <label for="inputDescription" class="form-label" aria-required="true"
+                            style="margin-top: 10px; float: left;">Description</label>
+                        <textarea class="form-control" id="inputDescription" rows="4"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" onclick="x()">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script type="text/javascript">
+            $(function () {
+                $("#btnShow").click(function () {
+                    $('#demoModal').modal('show');
+                });
+            });
+        </script>
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+        <script>
+            var coordinateX = ""
+            var coordinateY = ""
+            // var title = $("#inputTitle").val()
+            // var description = $("#inputDescription").val()
+
+            $(document).ready(function () {
+                $("img").on("click", function (event) {
+                    bounds = this.getBoundingClientRect();
+                    var left = bounds.left;
+                    var top = bounds.top;
+                    var x = event.pageX - left;
+                    var y = event.pageY - top;
+                    var cw = this.clientWidth
+                    var ch = this.clientHeight
+                    var iw = this.naturalWidth
+                    var ih = this.naturalHeight
+                    coordinateX = (x / cw * iw).toFixed(2)
+                    coordinateY = (y / ch * ih).toFixed(2)
+                    $('#demoModal').modal('show');
+                });
+            });
+            function x() {
+                window.open("http://127.0.0.1:5000/save_data_to_mysql/" + coordinateX + "/" + coordinateY + "/" + $("#inputTitle").val() + "/" + $("#inputDescription").val(), "_parent");
+            }
+        </script>
+</body>
+
+</html>
